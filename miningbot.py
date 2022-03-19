@@ -13,12 +13,6 @@ dDBInfo = {
     'password': ''
 }
 
-#init DB object
-#DB = DatabaseLayer(dDBInfo)
-
-
-
-
 bot = commands.Bot(command_prefix='!')
 
 @bot.command()
@@ -43,72 +37,4 @@ async def cal(ctx, arg1, arg2):
       
       #its not in correct range
 
-@bot.command()
-async def testdb(ctx, arg1):
-
-  Arg1upper = arg1.upper()
-  if Arg1upper in UnitList:
-    await ctx.send(DB.getUnitInfo(arg1))
-
-
-
-class DatabaseLayer:
-
-    #constructor
-    def init(self, dDBInfo):
-        self.cursor=none
-        self.connection=none
-        connect(self, dDBInfo)
-
-    #function to connect db
-    def connect(self, dDBInfo):
-        try:
-            self.connection = mysql.connector.connect(dDBInfo.get(host),
-                                         dDBInfo.get(database),
-                                         dDBInfo.get(user),
-                                         dDBInfo.get(password))
-
-            if self.connection.is_connected():
-                db_Info = self.connection.get_server_info()
-                print('Connected to MySQL Server version ', db_Info)
-                self.cursor = self.connection.cursor()
-                self.cursor.execute('select database();')
-                record = self.cursor.fetchone()
-                print('Connected to database: ', record)
-
-        except Error as e:
-            print('Error while connecting to MySQL', e)
-
-    #function to disconnect db
-    def disconnect(self):
-        if self.connection.is_connected():
-                        self.cursor.close()
-                        self.connection.close()
-                        print('MySQL connection is closed')
-
-    #QUERY-functions
-
-    #query to get info of single mining unit
-    def getUnitInfo(self, mu_name):
-        sqlcommand = 'SELECT * FROM miningunits WHERE name = ?'
-        self.cursor.execute(sqlcommand, mu_name)
-	row=cursor.fetchone()
-	while (row!=None):
-            returnList.add(row)
-  	    row = cursor.fetchone()
-        
-        return returnList.add
-	
-
-    #query to get info of all mining units
-    def getAllUnitInfo(self, mu_name):
-        sqlcommand = 'SELECT * FROM miningunits'
-        self.cursor.execute(sqlcommand)
-	row=cursor.fetchone()
-	while (row!=None):
-            returnList.add(row)
-  	    row = cursor.fetchone()
-
-        return returnList.add
-
-bot.run(os.getenv('TOKEN'))
+bot.run(os.getenv('DISCORD_TOKEN'))
