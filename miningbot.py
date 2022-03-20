@@ -234,7 +234,7 @@ async def getAllPayment(ctx):
         for entry in result:
             await ctx.send('Name: {} , Calibrations done: {}, Payment: {}'.format(entry[0], entry[1], entry[2]))
     else: 
-        await ctx.send('You do not have access to this command.)
+        await ctx.send('You do not have access to this command.')
 
 @bot.command()
 async def addUnit(ctx,muname):
@@ -248,7 +248,7 @@ async def addUnit(ctx,muname):
             unixstring = time.time()               
             DB.addUnit(muname,calib,unixstring)
     else: 
-        await ctx.send('You do not have access to this command.)
+        await ctx.send('You do not have access to this command.')
 
 
 
