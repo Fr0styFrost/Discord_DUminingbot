@@ -7,7 +7,8 @@ from discord.ext import commands
 import psycopg2
 
 #get DB info from ENV_Var
-url = urlparse.urlparse(os.environ['DATABASE_URL'])
+DATABASE_URL = os.environ['DATABASE_URL']
+url = urlparse.urlparse(DATABASE_URL)
 
 #dict. for database inf storage
 dDBInfo = {
@@ -29,28 +30,25 @@ class DBhandler:
     #connect db
     def connect(self, dbinfo):
         try:
-            self.connection = psycopg2.connect(host = dbinfo.get(host),
-                                         dbname = dbinfo.get(dbname),
-                                         user = dbinfo.get(user),
-                                         password = dbinfo.get(password),
-                                         port = dbinfo.get(port))
+            self.connection = psycopg2.connect(DATABASE_URL, sslmode='require')
+
             # Create a cursor to perform database operations
-            self.cursor = connection.cursor()
+            self.cursor = self.connection.cursor()
             print("PostgreSQL server information:")
-            print(connection.get_dsn_parameters(), "\n")
+            print(self.connection.get_dsn_parameters(), "\n")
             
             # Executing a SQL query
             self.cursor.execute("SELECT version();")
             # Fetch result
-            record = cursor.fetchone()
+            record = self.cursor.fetchone()
             print("You are connected to - ", record, "\n")
             
-        except (Exception, Error) as error:
-            print("Error while connecting to PostgreSQL", error)
+        except psycopg2.Error as e:
+            print("Error while connecting to PostgreSQL", e.pgerror)
             
     #disconnect db
     def disconnect(self):
-        if (connection):
+        if (self.connection):
             self.cursor.close()
             self.connection.close()
             print("PostgreSQL connection is closed")
