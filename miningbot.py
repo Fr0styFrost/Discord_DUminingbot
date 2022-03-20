@@ -221,13 +221,20 @@ async def calib(ctx, muname, calibration):
         await ctx.send('Input arguments were not correct!(MiningUnit not found or calibration out of range)')
 
 #--------payment bot commands--------
+
+#--------Admin commands--------
+#add Unit
+#Delete Unit
 #get specific payment info of player
 @bot.command()
 async def getAllPayment(ctx):
-    result = DB.getAllPayment()
-    for entry in result:
-        await ctx.send('Name: {} , Calibrations done: {}, Payment: {}'.format(entry[0], entry[1], entry[2]))
+    if "Admin" in [i.name.lower() for i in ctx.author.roles]:
+        result = DB.getAllPayment()
+        for entry in result:
+            await ctx.send('Name: {} , Calibrations done: {}, Payment: {}'.format(entry[0], entry[1], entry[2]))
+    else:
+        await ctx.send('You do not have access to this command')
 
-#--------Admin commands--------
+
 
 bot.run(os.getenv('DISCORD_TOKEN'))
