@@ -158,11 +158,11 @@ for entry in result:
     UnitList.append(entry[0])
 
 #--------generic bot commands--------
-@bot.command()
-async def help(ctx):
-    #display available commands
-    pass
-    
+#@bot.command()
+#async def help(ctx):
+#    #display available commands
+#    pass
+#    
 #--------mining unit bot commands--------
 
 #get specific mining unit info
