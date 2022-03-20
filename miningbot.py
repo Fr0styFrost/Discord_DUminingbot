@@ -30,7 +30,7 @@ class DBhandler:
     #connect db
     def connect(self, dbinfo):
         try:
-            self.connection = mysql.connector.connect(host = dbinfo.get(host),
+            self.connection = psycopg2.connect(host = dbinfo.get(host),
                                          dbname = dbinfo.get(dbname),
                                          user = dbinfo.get(user),
                                          password = dbinfo.get(password),
