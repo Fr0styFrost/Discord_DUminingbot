@@ -232,8 +232,11 @@ async def getAllPayment(ctx):
         result = DB.getAllPayment()
         for entry in result:
             await ctx.send('Name: {} , Calibrations done: {}, Payment: {}'.format(entry[0], entry[1], entry[2]))
-    else:
-        await ctx.send('You do not have access to this command')
+    else:      
+        role = ctx.author.roles
+        print(role)
+        await ctx.send('You do not have access to this command. Your role is{}'.format(role))
+
 
 
 
