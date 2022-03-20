@@ -236,6 +236,19 @@ async def getAllPayment(ctx):
     else: 
         await ctx.send('You do not have access to this command.)
 
+@bot.command()
+async def addUnit(ctx,muname):
+    role = discord.utils.get(ctx.guild.roles, id=952705796985208842)
+    if role in ctx.author.roles:    
+        muname = muname.upper()       
+        if muname in UnitList:
+            await ctx.send('This unit is already in the list')
+        else: 
+            calib = 0
+            unixstring = time.time()               
+            DB.addUnit(muname,calib,unixstring)
+    else: 
+        await ctx.send('You do not have access to this command.)
 
 
 
