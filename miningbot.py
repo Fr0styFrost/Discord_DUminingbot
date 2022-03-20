@@ -25,7 +25,7 @@ class DBhandler:
     def __init__(self, dbinfo):
         self.cursor=None
         self.connection=None
-        connect(self, dDBInfo)
+        self.connect(self, dDBInfo)
         
     #connect db
     def connect(self, dbinfo):
