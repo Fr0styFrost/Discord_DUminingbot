@@ -19,9 +19,6 @@ dDBInfo = {
     'port' : url.port
 }
 
-#create DB object
-DB = DBhandler(dDBInfo)
-
 #create bot object
 bot = commands.Bot(command_prefix='!')
 
@@ -208,5 +205,7 @@ class DBhandler:
         query='DELETE FROM hexrental WHERE hex=%s)'
         self.cursor.execute(query,[hexname])
    
-        
+#create DB object
+DB = DBhandler(dDBInfo)
+
 bot.run(os.getenv('DISCORD_TOKEN'))
