@@ -152,6 +152,7 @@ DB = DBhandler(dDBInfo)
 bot = commands.Bot(command_prefix='!')
 
 #initial filling of mining unit List:
+UnitList=[]
 result = DB.initUnitList()
 for entry in result:
     UnitList.append(entry[0])
