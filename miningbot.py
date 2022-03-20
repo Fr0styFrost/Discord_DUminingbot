@@ -168,7 +168,6 @@ for entry in result:
 #get specific mining unit info
 @bot.command()
 async def getUnit(ctx, muname):
-    print("ERROR: ", arg1)
     #check input
     muname = muname.upper()
     if muname in UnitList:
