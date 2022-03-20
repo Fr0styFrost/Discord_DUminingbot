@@ -8,16 +8,6 @@ import psycopg2
 
 #get DB info from ENV_Var
 DATABASE_URL = os.environ['DATABASE_URL']
-url = urlparse.urlparse(DATABASE_URL)
-
-#dict. for database inf storage
-dDBInfo = {
-    'host' : url.hostname,
-    'dbname' : url.path[1:],
-    'user' : url.username,
-    'password' : url.password,
-    'port' : url.port
-}
 
 class DBhandler:
     #all returns of queries are list of tuples [(x,y,z),(x,y,z)]
@@ -176,14 +166,8 @@ result = DB.initUnitList()
 for entry in result:
     UnitList.append(entry[0])
 
-#--------generic bot commands--------
-#@bot.command()
-#async def help(ctx):
-#    #display available commands
-#    pass
-#    
-#--------mining unit bot commands--------
 
+#--------mining unit bot commands--------
 #get specific mining unit info
 @bot.command()
 async def getUnit(ctx, muname):
@@ -228,6 +212,13 @@ async def calib(ctx, muname, calibration):
         await ctx.send('{}, you added 1 Calibration and 250k to your payment for calibrating {}'.format(userName, muname))
     else:
         await ctx.send('Input arguments were not correct!(MiningUnit not found or calibration out of range)')
-        
+
+#--------payment bot commands--------
+#get specific payment info of player
+@bot.command()
+async def getAllPayment(ctx):
+    result = DB.getAllPayment()
+    for entry in result:
+        await ctx.send('Name: {} , Calibrations done: {}, Payment: {}'.format(entry[0], entry[1], entry[2]))
 
 bot.run(os.getenv('DISCORD_TOKEN'))
