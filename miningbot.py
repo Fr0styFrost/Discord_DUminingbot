@@ -23,8 +23,8 @@ class DBhandler:
     #all returns of queries are list of tuples [(x,y,z),(x,y,z)]
     #constructor
     def __init__(self, dbinfo):
-        self.cursor=none
-        self.connection=none
+        self.cursor=None
+        self.connection=None
         connect(self, dDBInfo)
         
     #connect db
