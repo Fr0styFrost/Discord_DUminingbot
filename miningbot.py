@@ -15,7 +15,7 @@ dDBInfo = {
     'host' : url.hostname,
     'dbname' : url.path[1:],
     'user' : url.username,
-    'password' : url.password
+    'password' : url.password,
     'port' : url.port
 }
 
