@@ -107,9 +107,19 @@ class DBhandler:
     
     #Add player payment
     def addPayment(self,playername):
-        query='''UPDATE "payment" SET "payment"."calibcount" = "payment"."calibcount" +1, "payment"."payment" = "payment"."payment" + "payment"."payment" WHERE "payment"."playername" = %s'''
-        self.cursor.execute(query,(playername,))
-    
+        #check if player already in DB
+        checkquery='''SELECT * FROM "payment" WHERE "payment"."playername" = %s'''
+        self.cursor.execute(checkquery,(playername,))
+        rows = self.cursor.fetchall()
+        if rows:
+            #player already in db - update his entry
+            query='''UPDATE "payment" SET "payment"."calibcount" = "payment"."calibcount" +1, "payment"."payment" = "payment"."payment" + "payment"."payment" WHERE "payment"."playername" = %s'''
+            self.cursor.execute(query,(playername,))
+        else:
+            #player is not in db - create new entry
+            query='''INSERT INTO "payment" ("playername", "calibcount" ,"payment") VALUES(%s, %s, %s)'''
+            self.cursor.execute(query,(playername,"1","200000",))
+            
     #clear player payment
     def clearPayment(self,playername):
         query='''UPDATE "payment" SET "payment"."calibcount"  = 0, "payment"."payment" = 0 WHERE "payment"."playername" = %s'''
@@ -188,7 +198,8 @@ async def getAllUnits(ctx):
 async def calib(ctx, muname, calibration):
     #check inputs
     muname = muname.upper()
-    calibration = calib[:-1]
+    if "%" in calibration:
+        calibration = calibration[:-1]
     reResult = re.match('^[1-9][0-9]?$|^100$', calibration)
     
     if muname in UnitList and reResult:
