@@ -56,94 +56,94 @@ class DBhandler:
     #--------MINING UNIT COMMANDS--------
     #initial unit-read function
     def initUnitList(self):
-        query='SELECT muname FROM miningunits'
+        query='''SELECT "miningunits"."muname" FROM "miningunits"'''
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
         return rows
     
     #get Info of single unit
     def getUnitInfo(self,muname):
-        query='SELECT * FROM miningunits WHERE muname = %s'
-        self.cursor.execute(query,muname)
+        query='''SELECT * FROM "miningunits" WHERE "miningunits"."muname" = %s'''
+        self.cursor.execute(query,(muname,))
         rows = self.cursor.fetchall()
         return rows
     
     #get Info of all units
     def getAllUnitInfo(self):
-        query='SELECT * FROM miningunits'
+        query='''SELECT * FROM "miningunits"'''
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
         return rows
     
     #Update Info of single unit
     def updateUnit(self,muname,calib,unixstring):
-        query='UPDATE miningunits SET calibration = %s, timeleft = %s WHERE muname = %s'
-        self.cursor.execute(query,[calib, unixstring, muname])
+        query='''UPDATE "miningunits" SET "miningunits"."calibration" = %s, "miningunits"."timeleft" = %s WHERE "miningunits"."muname" = %s'''
+        self.cursor.execute(query,(calib, unixstring, muname,))
         
     #Add new unit
     def addUnit(self,muname,calib,unixstring):
-        query='INSERT INTO miningunits VALUES(muname=%s, calibration=%s, timeleft=%s)'
-        self.cursor.execute(query,[muname, calib, unixstring])
+        query='''INSERT INTO "miningunits" ("munames", "calibration", "timeleft") VALUES (%s, %s, %s)'''
+        self.cursor.execute(query,(muname, calib, unixstring,))
         
     #remove unit
     def deleteUnit(self,muname):
-        query='DELETE FROM miningunits WHERE muname=%s)'
-        self.cursor.execute(query,[muname])
+        query='''DELETE FROM "miningunits" WHERE "miningunits"."muname"=%s)'''
+        self.cursor.execute(query,(muname,))
         
     #--------PAYMENT TABLE COMMANDS--------
     #get Info of player
     def getPlayerPayment(self,playername):
-        query='SELECT * FROM payment WHERE playername = %s'
-        self.cursor.execute(query,[playername])
+        query='''SELECT * FROM "payment" WHERE "payment"."playername" = %s'''
+        self.cursor.execute(query,(playername,))
         rows = self.cursor.fetchall()
         return rows
     
     #get Info of all players
     def getAllPayment(self):
-        query='SELECT * FROM payment'
+        query='''SELECT * FROM "payment"'''
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
         return rows
     
     #Add player payment
     def addPayment(self,playername):
-        query='UPDATE payment SET calibcount = calibcount +1, payment = payment + payment WHERE playername = %s'
-        self.cursor.execute(query,[playername])
+        query='''UPDATE "payment" SET "payment"."calibcount" = "payment"."calibcount" +1, "payment"."payment" = "payment"."payment" + "payment"."payment" WHERE "payment"."playername" = %s'''
+        self.cursor.execute(query,(playername,))
     
     #clear player payment
     def clearPayment(self,playername):
-        query='UPDATE payment SET calibcount = 0, payment = 0 WHERE playername = %s'
-        self.cursor.execute(query,[playername])
+        query='''UPDATE "payment" SET "payment"."calibcount"  = 0, "payment"."payment" = 0 WHERE "payment"."playername" = %s'''
+        self.cursor.execute(query,(playername,))
     
     #--------HEX RENTAL COMMANDS--------
     #get Info of specific player rentals
     def getPlayerHexRentals(self,playername):
-        query='SELECT * FROM hexrental WHERE playername = %s'
-        self.cursor.execute(query,[playername])
+        query='''SELECT * FROM "hexrental" WHERE "hexrental"."playername" = %s'''
+        self.cursor.execute(query,(playername,))
         rows = self.cursor.fetchall()
         return rows
     
     #get Info of all players rentals
     def getAllHexRentals(self):
-        query='SELECT * FROM hexrental'
+        query='''SELECT * FROM "hexrental"'''
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
         return rows
     
     #update hex rental
     def updateHexRental(self,hexname,playername,duedate):
-        query='UPDATE hexrental SET duedate = %s WHERE playername = %s AND hex = %s'
-        self.cursor.execute(query,[duedate, playername, hexname])
+        query='''UPDATE "hexrental" SET "hexrental"."duedate" = %s WHERE "hexrental"."playername" = %s AND "hexrental"."hex" = %s'''
+        self.cursor.execute(query,(duedate, playername, hexname,))
         
     #add new hex rental
     def addHexRental(self,hexname,playername,duedate):
-        query='INSERT INTO hexrental VALUES(hex=%s, playername=%s, duedate=%s)'
-        self.cursor.execute(query,[hexname, playername, duedate])
+        query='''INSERT INTO "hexrental" ("hex", "playername", "duedate") VALUES(%s, %s, %s)'''
+        self.cursor.execute(query,(hexname, playername, duedate,))
         
     #clear hex rental
     def clearHexRental(self,hexname):
-        query='DELETE FROM hexrental WHERE hex=%s)'
-        self.cursor.execute(query,[hexname])
+        query='''DELETE FROM "hexrental" WHERE "hexrental"."hex"=%s)'''
+        self.cursor.execute(query,(hexname,))
    
 #create DB object
 DB = DBhandler(dDBInfo)
@@ -167,10 +167,10 @@ for entry in result:
 
 #get specific mining unit info
 @bot.command()
-async def getUnit(ctx, arg1):
+async def getUnit(ctx, muname):
     print("ERROR: ", arg1)
     #check input
-    muname = arg1.upper()
+    muname = muname.upper()
     if muname in UnitList:
         result = DB.getUnitInfo(muname)
         calTime = '<t:' + result[0][2] + ':R>'
@@ -186,10 +186,10 @@ async def getAllUnits(ctx):
 
 #calibrate mining unit
 @bot.command()
-async def calib(ctx, arg1, arg2):
+async def calib(ctx, muname, calibration):
     #check inputs
-    muname = arg1.upper()
-    calibration = arg2[:-1]
+    muname = muname.upper()
+    calibration = calib[:-1]
     reResult = re.match('^[1-9][0-9]?$|^100$', calibration)
     
     if muname in UnitList and reResult:
