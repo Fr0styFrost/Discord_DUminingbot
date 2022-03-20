@@ -12,13 +12,13 @@ DATABASE_URL = os.environ['DATABASE_URL']
 class DBhandler:
     #all returns of queries are list of tuples [(x,y,z),(x,y,z)]
     #constructor
-    def __init__(self, dbinfo):
+    def __init__(self, DATABASE_URL):
         self.cursor=None
         self.connection=None
-        self.connect(dDBInfo)
+        self.connect(DATABASE_URL)
         
     #connect db
-    def connect(self, dbinfo):
+    def connect(self, DATABASE_URL):
         try:
             self.connection = psycopg2.connect(DATABASE_URL, sslmode='require')
 
@@ -155,7 +155,7 @@ class DBhandler:
         self.connection.commit()
    
 #create DB object
-DB = DBhandler(dDBInfo)
+DB = DBhandler(DATABASE_URL)
 
 #create bot object
 bot = commands.Bot(command_prefix='!')
