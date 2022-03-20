@@ -77,7 +77,7 @@ class DBhandler:
     
     #Update Info of single unit
     def updateUnit(self,muname,calib,unixstring):
-        query='''UPDATE "miningunits" SET "miningunits"."calibration" = %s, "miningunits"."timeleft" = %s WHERE "miningunits"."muname" = %s'''
+        query='''UPDATE "miningunits" SET "."calibration" = %s, timeleft" = %s WHERE "miningunits"."muname" = %s'''
         self.cursor.execute(query,(calib, unixstring, muname,))
         
     #Add new unit
@@ -113,7 +113,7 @@ class DBhandler:
         rows = self.cursor.fetchall()
         if rows:
             #player already in db - update his entry
-            query='''UPDATE "payment" SET "payment"."calibcount" = "payment"."calibcount" +1, "payment"."payment" = "payment"."payment" + "payment"."payment" WHERE "payment"."playername" = %s'''
+            query='''UPDATE "payment" SET "calibcount" = "calibcount" + 1, "payment" = "payment" + "payment" WHERE "payment"."playername" = %s'''
             self.cursor.execute(query,(playername,))
         else:
             #player is not in db - create new entry
@@ -122,7 +122,7 @@ class DBhandler:
             
     #clear player payment
     def clearPayment(self,playername):
-        query='''UPDATE "payment" SET "payment"."calibcount"  = 0, "payment"."payment" = 0 WHERE "payment"."playername" = %s'''
+        query='''UPDATE "payment" SET "calibcount"  = 0, "payment" = 0 WHERE "payment"."playername" = %s'''
         self.cursor.execute(query,(playername,))
     
     #--------HEX RENTAL COMMANDS--------
@@ -142,7 +142,7 @@ class DBhandler:
     
     #update hex rental
     def updateHexRental(self,hexname,playername,duedate):
-        query='''UPDATE "hexrental" SET "hexrental"."duedate" = %s WHERE "hexrental"."playername" = %s AND "hexrental"."hex" = %s'''
+        query='''UPDATE "hexrental" SET "duedate" = %s WHERE "hexrental"."playername" = %s AND "hexrental"."hex" = %s'''
         self.cursor.execute(query,(duedate, playername, hexname,))
         
     #add new hex rental
