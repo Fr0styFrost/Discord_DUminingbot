@@ -222,7 +222,7 @@ async def calib(ctx, muname, calibration):
         DB.updateUnit(muname, percentage, UTime)
         await ctx.send('You updated {} to {}% and will need recalibration in {}'.format(muname, percentage, calTime))
         #updating payments table
-        userName = ctx.message.author.mention
+        userName = ctx.message.author.display_name
         print(userName)
         DB.addPayment(userName) #her name needs to inserted
         await ctx.send('{}, you added 1 Calibration and 250k to your payment for calibrating {}'.format(userName, muname))
