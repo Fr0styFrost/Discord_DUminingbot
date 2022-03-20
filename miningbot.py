@@ -245,7 +245,7 @@ async def addUnit(ctx,muname):
             await ctx.send('This unit is already in the list')
         else: 
             calib = 0
-            unixstring = time.time()               
+            unixstring = int(time.time())               
             DB.addUnit(muname,calib,unixstring)
     else: 
         await ctx.send('You do not have access to this command.')
