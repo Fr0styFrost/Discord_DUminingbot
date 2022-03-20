@@ -79,16 +79,19 @@ class DBhandler:
     def updateUnit(self,muname,calib,unixstring):
         query='''UPDATE "miningunits" SET "calibration" = %s, "timeleft" = %s WHERE "miningunits"."muname" = %s'''
         self.cursor.execute(query,(calib, unixstring, muname,))
+        self.connection.commit()
         
     #Add new unit
     def addUnit(self,muname,calib,unixstring):
         query='''INSERT INTO "miningunits" ("munames", "calibration", "timeleft") VALUES (%s, %s, %s)'''
         self.cursor.execute(query,(muname, calib, unixstring,))
+        self.connection.commit()
         
     #remove unit
     def deleteUnit(self,muname):
         query='''DELETE FROM "miningunits" WHERE "miningunits"."muname"=%s)'''
         self.cursor.execute(query,(muname,))
+        self.connection.commit()
         
     #--------PAYMENT TABLE COMMANDS--------
     #get Info of player
@@ -115,16 +118,19 @@ class DBhandler:
             #player already in db - update his entry
             query='''UPDATE "payment" SET "calibcount" = "calibcount" + 1, "payment" = "payment" + "payment" WHERE "payment"."playername" = %s'''
             self.cursor.execute(query,(playername,))
+            self.connection.commit()
         else:
             #player is not in db - create new entry
             query='''INSERT INTO "payment" ("playername", "calibcount" ,"payment") VALUES(%s, %s, %s)'''
             self.cursor.execute(query,(playername,"1","250000",))
+            self.connection.commit()
             
     #clear player payment
     def clearPayment(self,playername):
         query='''UPDATE "payment" SET "calibcount"  = 0, "payment" = 0 WHERE "payment"."playername" = %s'''
         self.cursor.execute(query,(playername,))
-    
+        self.connection.commit()
+        
     #--------HEX RENTAL COMMANDS--------
     #get Info of specific player rentals
     def getPlayerHexRentals(self,playername):
@@ -144,16 +150,19 @@ class DBhandler:
     def updateHexRental(self,hexname,playername,duedate):
         query='''UPDATE "hexrental" SET "duedate" = %s WHERE "hexrental"."playername" = %s AND "hexrental"."hex" = %s'''
         self.cursor.execute(query,(duedate, playername, hexname,))
+        self.connection.commit()
         
     #add new hex rental
     def addHexRental(self,hexname,playername,duedate):
         query='''INSERT INTO "hexrental" ("hex", "playername", "duedate") VALUES(%s, %s, %s)'''
         self.cursor.execute(query,(hexname, playername, duedate,))
+        self.connection.commit()
         
     #clear hex rental
     def clearHexRental(self,hexname):
         query='''DELETE FROM "hexrental" WHERE "hexrental"."hex"=%s)'''
         self.cursor.execute(query,(hexname,))
+        self.connection.commit()
    
 #create DB object
 DB = DBhandler(dDBInfo)
@@ -214,6 +223,7 @@ async def calib(ctx, muname, calibration):
         await ctx.send('You updated {} to {}% and will need recalibration in {}'.format(muname, percentage, calTime))
         #updating payments table
         userName = ctx.message.author.mention
+        print(userName)
         DB.addPayment(userName) #her name needs to inserted
         await ctx.send('{}, you added 1 Calibration and 250k to your payment for calibrating {}'.format(userName, muname))
     else:
