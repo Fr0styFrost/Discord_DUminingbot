@@ -4,8 +4,7 @@ import re
 import time
 import urllib.parse as urlparse
 from discord.ext import commands
-import mysql.connector
-from mysql.connector import Error
+import psycopg2
 
 #get DB info from ENV_Var
 url = urlparse.urlparse(os.environ['DATABASE_URL'])
