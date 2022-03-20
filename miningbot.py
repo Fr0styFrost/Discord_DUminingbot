@@ -77,7 +77,7 @@ class DBhandler:
     
     #Update Info of single unit
     def updateUnit(self,muname,calib,unixstring):
-        query='''UPDATE "miningunits" SET "."calibration" = %s, timeleft" = %s WHERE "miningunits"."muname" = %s'''
+        query='''UPDATE "miningunits" SET "calibration" = %s, "timeleft" = %s WHERE "miningunits"."muname" = %s'''
         self.cursor.execute(query,(calib, unixstring, muname,))
         
     #Add new unit
