@@ -167,13 +167,14 @@ for entry in result:
 
 #get specific mining unit info
 @bot.command()
-async def getUnit(ctx, muname):
+async def getUnit(ctx, arg1):
+    print("ERROR: ", arg1)
     #check input
-    muname = muname.upper()
+    muname = arg1.upper()
     if muname in UnitList:
         result = DB.getUnitInfo(muname)
-        calTime = '<t:' + entry[2] + ':R>'
-        await ctx.send('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
+        calTime = '<t:' + result[0][2] + ':R>'
+        await ctx.send('Name: {} , Calibration needed in {}'.format(result[0][0],calTime))
 
 #get all mining unit info
 @bot.command()
@@ -185,10 +186,10 @@ async def getAllUnits(ctx):
 
 #calibrate mining unit
 @bot.command()
-async def calib(ctx, muname, calibration):
+async def calib(ctx, arg1, arg2):
     #check inputs
-    muname = muname.upper()
-    calibration = calibration[:-1]
+    muname = arg1.upper()
+    calibration = arg2[:-1]
     reResult = re.match('^[1-9][0-9]?$|^100$', calibration)
     
     if muname in UnitList and reResult:
