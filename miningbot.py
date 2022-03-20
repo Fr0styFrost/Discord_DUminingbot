@@ -202,7 +202,7 @@ async def calib(ctx, muname, calibration):
         #check old Data
         if muname in UnitList:
             result = DB.getUnitInfo(muname)
-        if result[0][2] > 172,800 + time.time():
+        if result[0][2] > 172800 + time.time():
             await ctx.send('This unit did not need calibration. You have wasted your charge. No payment will be made for this calibration.')
         else:
             #unix calculation
