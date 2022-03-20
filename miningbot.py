@@ -203,7 +203,7 @@ async def calib(ctx, muname, calibration):
         if muname in UnitList:
         result = DB.getUnitInfo(muname)
         if result[0][2] > 172,800 + time.time()
-            await ctx.send('This unit did not need calibration. You have wasted your charge. No payment will be made for this calibration.)
+            await ctx.send('This unit did not need calibration. You have wasted your charge. No payment will be made for this calibration.')
         else
             #unix calculation
             percentage = int(calibration) 
