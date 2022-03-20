@@ -19,63 +19,6 @@ dDBInfo = {
     'port' : url.port
 }
 
-#create bot object
-bot = commands.Bot(command_prefix='!')
-
-#initial filling of mining unit List:
-result = DB.initUnitList()
-for entry in result:
-    UnitList.append(entry[0])
-
-#--------generic bot commands--------
-@bot.command()
-async def help(ctx):
-    #display available commands
-    pass
-    
-#--------mining unit bot commands--------
-
-#get specific mining unit info
-@bot.command()
-async def getUnit(ctx, muname):
-    #check input
-    muname = muname.upper()
-    if muname in UnitList:
-        result = DB.getUnitInfo(muname)
-        calTime = '<t:' + entry[2] + ':R>'
-        await ctx.send('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
-
-#get all mining unit info
-@bot.command()
-async def getAllUnits(ctx):
-    result = DB.getAllUnitInfo()
-    for entry in result:
-        calTime = '<t:' + entry[2] + ':R>'
-        await ctx.send('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
-
-#calibrate mining unit
-@bot.command()
-async def calib(ctx, muname, calibration):
-    #check inputs
-    muname = muname.upper()
-    calibration = calibration[:-1]
-    reResult = re.match('^[1-9][0-9]?$|^100$', calibration)
-    
-    if muname in UnitList and reResult:
-        #unix calculation
-        percentage = int(calibration) 
-        UTime = str(int(((percentage - 65)/0.625+72)*3600 + time.time()))
-        calTime = '<t:' + UTime + ':R>'
-        #updating mining units table
-        DB.updateUnit(muname, percentage, UTime)
-        await ctx.send('You updated {} to {}% and will need recalibration in {}'.format(muname, percentage, calTime))
-        #updating payments table
-        userName = ctx.message.author.mention
-        #DB.addPayment(userName) #her name needs to inserted
-        await ctx.send('Added 1 Calibration and 200k to your payment for calibrating {}'.format(muname))
-    else:
-        await ctx.send('Input arguments were not correct!(MiningUnit not found or calibration out of range)')
-        
 class DBhandler:
     #all returns of queries are list of tuples [(x,y,z),(x,y,z)]
     #constructor
@@ -207,5 +150,63 @@ class DBhandler:
    
 #create DB object
 DB = DBhandler(dDBInfo)
+
+#create bot object
+bot = commands.Bot(command_prefix='!')
+
+#initial filling of mining unit List:
+result = DB.initUnitList()
+for entry in result:
+    UnitList.append(entry[0])
+
+#--------generic bot commands--------
+@bot.command()
+async def help(ctx):
+    #display available commands
+    pass
+    
+#--------mining unit bot commands--------
+
+#get specific mining unit info
+@bot.command()
+async def getUnit(ctx, muname):
+    #check input
+    muname = muname.upper()
+    if muname in UnitList:
+        result = DB.getUnitInfo(muname)
+        calTime = '<t:' + entry[2] + ':R>'
+        await ctx.send('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
+
+#get all mining unit info
+@bot.command()
+async def getAllUnits(ctx):
+    result = DB.getAllUnitInfo()
+    for entry in result:
+        calTime = '<t:' + entry[2] + ':R>'
+        await ctx.send('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
+
+#calibrate mining unit
+@bot.command()
+async def calib(ctx, muname, calibration):
+    #check inputs
+    muname = muname.upper()
+    calibration = calibration[:-1]
+    reResult = re.match('^[1-9][0-9]?$|^100$', calibration)
+    
+    if muname in UnitList and reResult:
+        #unix calculation
+        percentage = int(calibration) 
+        UTime = str(int(((percentage - 65)/0.625+72)*3600 + time.time()))
+        calTime = '<t:' + UTime + ':R>'
+        #updating mining units table
+        DB.updateUnit(muname, percentage, UTime)
+        await ctx.send('You updated {} to {}% and will need recalibration in {}'.format(muname, percentage, calTime))
+        #updating payments table
+        userName = ctx.message.author.mention
+        #DB.addPayment(userName) #her name needs to inserted
+        await ctx.send('Added 1 Calibration and 200k to your payment for calibrating {}'.format(muname))
+    else:
+        await ctx.send('Input arguments were not correct!(MiningUnit not found or calibration out of range)')
+        
 
 bot.run(os.getenv('DISCORD_TOKEN'))
