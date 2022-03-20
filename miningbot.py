@@ -228,13 +228,12 @@ async def calib(ctx, muname, calibration):
 #get specific payment info of player
 @bot.command()
 async def getAllPayment(ctx):
-    if "Admin" in [i.name.lower() for i in ctx.author.roles]:
+    role = discord.utils.get(ctx.guild.roles, id=952705796985208842)
+    if role in ctx.author.roles:
         result = DB.getAllPayment()
         for entry in result:
             await ctx.send('Name: {} , Calibrations done: {}, Payment: {}'.format(entry[0], entry[1], entry[2]))
-    else:      
-        role = ctx.author.roles
-        print(role)
+    else: 
         await ctx.send('You do not have access to this command. Your role is{}'.format(role))
 
 
