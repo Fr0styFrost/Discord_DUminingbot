@@ -118,7 +118,7 @@ class DBhandler:
         else:
             #player is not in db - create new entry
             query='''INSERT INTO "payment" ("playername", "calibcount" ,"payment") VALUES(%s, %s, %s)'''
-            self.cursor.execute(query,(playername,"1","200000",))
+            self.cursor.execute(query,(playername,"1","250000",))
             
     #clear player payment
     def clearPayment(self,playername):
@@ -184,7 +184,9 @@ async def getUnit(ctx, muname):
         result = DB.getUnitInfo(muname)
         calTime = '<t:' + result[0][2] + ':R>'
         await ctx.send('Name: {} , Calibration needed in {}'.format(result[0][0],calTime))
-
+    else:
+        await ctx.send('Input arguments were not correct!(MiningUnit not found!)')
+        
 #get all mining unit info
 @bot.command()
 async def getAllUnits(ctx):
@@ -212,8 +214,8 @@ async def calib(ctx, muname, calibration):
         await ctx.send('You updated {} to {}% and will need recalibration in {}'.format(muname, percentage, calTime))
         #updating payments table
         userName = ctx.message.author.mention
-        #DB.addPayment(userName) #her name needs to inserted
-        await ctx.send('Added 1 Calibration and 200k to your payment for calibrating {}'.format(muname))
+        DB.addPayment(userName) #her name needs to inserted
+        await ctx.send('{}, you added 1 Calibration and 250k to your payment for calibrating {}'.format(userName, muname))
     else:
         await ctx.send('Input arguments were not correct!(MiningUnit not found or calibration out of range)')
         
