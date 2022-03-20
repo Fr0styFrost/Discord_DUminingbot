@@ -13,7 +13,7 @@ url = urlparse.urlparse(os.environ['DATABASE_URL'])
 #dict. for database inf storage
 dDBInfo = {
     'host' : url.hostname,
-    'dbname' : dbname = url.path[1:],
+    'dbname' : url.path[1:],
     'user' : url.username,
     'password' : url.password
     'port' : url.port
