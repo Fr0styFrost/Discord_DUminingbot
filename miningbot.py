@@ -73,7 +73,7 @@ class DBhandler:
         
     #Add new unit
     def addUnit(self,muname,calib,unixstring):
-        query='''INSERT INTO "miningunits" ("munames", "calibration", "timeleft") VALUES (%s, %s, %s)'''
+        query='''INSERT INTO "miningunits" ("muname", "calibration", "timeleft") VALUES (%s, %s, %s)'''
         self.cursor.execute(query,(muname, calib, unixstring,))
         self.connection.commit()
         
