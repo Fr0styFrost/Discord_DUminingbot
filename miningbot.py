@@ -4,6 +4,7 @@ import re
 import time
 import urllib.parse as urlparse
 from discord.ext import commands
+from discord.ext.commands import has_permission
 import psycopg2
 
 #get DB info from ENV_Var
@@ -198,18 +199,24 @@ async def calib(ctx, muname, calibration):
     reResult = re.match('^[1-9][0-9]?$|^100$', calibration)
     
     if muname in UnitList and reResult:
-        #unix calculation
-        percentage = int(calibration) 
-        UTime = str(int(((percentage - 65)/0.625+72)*3600 + time.time()))
-        calTime = '<t:' + UTime + ':R>'
-        #updating mining units table
-        DB.updateUnit(muname, percentage, UTime)
-        await ctx.send('You updated {} to {}% and will need recalibration in {}'.format(muname, percentage, calTime))
-        #updating payments table
-        userName = ctx.message.author.display_name
-        print(userName)
-        DB.addPayment(userName) #her name needs to inserted
-        await ctx.send('{}, you added 1 Calibration and 250k to your payment for calibrating {}'.format(userName, muname))
+        #check old Data
+        if muname in UnitList:
+        result = DB.getUnitInfo(muname)
+        if result[0][2] > 172,800 + time.time()
+            await ctx.send('This unit did not need calibration. You have wasted your charge. No payment will be made for this calibration.)
+        else
+            #unix calculation
+            percentage = int(calibration) 
+            UTime = str(int(((percentage - 65)/0.625+72)*3600 + time.time()))
+            calTime = '<t:' + UTime + ':R>'
+            #updating mining units table
+            DB.updateUnit(muname, percentage, UTime)
+            await ctx.send('You updated {} to {}% and will need recalibration in {}'.format(muname, percentage, calTime))
+            #updating payments table
+            userName = ctx.message.author.display_name
+            print(userName)
+            DB.addPayment(userName) #her name needs to inserted
+            await ctx.send('{}, you added 1 Calibration and 250k to your payment for calibrating {}'.format(userName, muname))
     else:
         await ctx.send('Input arguments were not correct!(MiningUnit not found or calibration out of range)')
 
@@ -220,5 +227,7 @@ async def getAllPayment(ctx):
     result = DB.getAllPayment()
     for entry in result:
         await ctx.send('Name: {} , Calibrations done: {}, Payment: {}'.format(entry[0], entry[1], entry[2]))
+
+#--------Admin commands--------
 
 bot.run(os.getenv('DISCORD_TOKEN'))
