@@ -106,7 +106,7 @@ class DBhandler:
         rows = self.cursor.fetchall()
         if rows:
             #player already in db - update his entry
-            query='''UPDATE "payment" SET "calibcount" = "calibcount" + 1, "payment" = "payment" + "payment" WHERE "payment"."playername" = %s'''
+            query='''UPDATE "payment" SET "calibcount" = "calibcount" + 1, "payment" = "payment" + "250000" WHERE "payment"."playername" = %s'''
             self.cursor.execute(query,(playername,))
             self.connection.commit()
         else:
