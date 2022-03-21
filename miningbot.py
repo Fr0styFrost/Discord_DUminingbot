@@ -253,5 +253,8 @@ async def addUnit(ctx,muname):
         await ctx.send('You do not have access to this command.')
 
 
+@bot.command()
+async def test(ctx):
+     await ctx.send(UnitList)
 
 bot.run(os.getenv('DISCORD_TOKEN'))
