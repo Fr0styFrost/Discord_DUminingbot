@@ -247,6 +247,7 @@ async def addUnit(ctx,muname):
             calib = 0
             unixstring = int(time.time())               
             DB.addUnit(muname,calib,unixstring)
+            UnitList.append(muname)
             await ctx.send('{} has been added.'.format(muname))
             
     else: 
