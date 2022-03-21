@@ -247,7 +247,7 @@ async def addUnit(ctx,muname):
             calib = 0
             unixstring = int(time.time())               
             DB.addUnit(muname,calib,unixstring)
-            await ctx.send('{} has been added.{}'.(muname))
+            await ctx.send('{} has been added.'.format(muname))
             
     else: 
         await ctx.send('You do not have access to this command.')
