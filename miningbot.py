@@ -262,8 +262,7 @@ async def addUnit(ctx,muname):
 @bot.command()
 async def clearPayment(ctx,playername):
     role = discord.utils.get(ctx.guild.roles, id=952705796985208842)
-    if role in ctx.author.roles:    
-        playername = playername.upper()
+    if role in ctx.author.roles:        
         DB.clearPayment(playername)
         await ctx.send('{} has been paid.'.format(playername))
     else:
