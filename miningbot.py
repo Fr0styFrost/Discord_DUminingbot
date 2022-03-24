@@ -188,12 +188,12 @@ async def getAllUnits(ctx):
     for entry in result:
         calTime = '<t:' + entry[2] + ':R>'
         mulist.append('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
-        length = len(mulist)*100
-        if length > 1500:
-            await ctx.send('\n'.join(mulist))
-            mulist.clear            
-    await ctx.send('\n'.join(mulist))
-    
+    n = 10
+    l=[mulist[i:i+n] for i in range(0, len(mulist), n)]
+    for el in l:
+        await ctx.send(el)
+        
+
 #calibrate mining unit
 @bot.command()
 async def calib(ctx, muname, calibration):
