@@ -191,7 +191,7 @@ async def getAllUnits(ctx):
     n = 10
     l=[mulist[i:i+n] for i in range(0, len(mulist), n)]
     for el in l:
-        await ctx.send('\n'.join(str(el))
+        await ctx.send('\n'.join(str(el)))
         
 
 #calibrate mining unit
