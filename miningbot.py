@@ -254,8 +254,11 @@ async def addUnit(ctx,muname):
             
     else: 
         await ctx.send('You do not have access to this command.')
-
-
+@bot.command()
+async def clearPayment(ctx,playername):
+    DB.clearpayment(playername).
+    await ctx.send('{} has been paid.'.format(playername))
+    
 @bot.command()
 async def test(ctx):
      await ctx.send(UnitList)
