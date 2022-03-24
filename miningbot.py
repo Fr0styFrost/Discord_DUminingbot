@@ -184,9 +184,11 @@ async def getUnit(ctx, muname):
 @bot.command()
 async def getAllUnits(ctx):
     result = DB.getAllUnitInfo()
+    botmessage = []
     for entry in result:
         calTime = '<t:' + entry[2] + ':R>'
-        await ctx.send('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
+        botmessage.append('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
+     await ctx.send('\n'.join(botmessage))
 
 #calibrate mining unit
 @bot.command()
