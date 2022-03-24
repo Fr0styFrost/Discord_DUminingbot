@@ -189,7 +189,7 @@ async def getAllUnits(ctx):
         calTime = '<t:' + entry[2] + ':R>'
         mulist.append('Name: {} , Calibration needed in {}'.format(entry[0],calTime))
         length = len(mulist)*100
-        if length > 3500:
+        if length > 1500:
             await ctx.send('\n'.join(mulist))
             mulist.clear            
     await ctx.send('\n'.join(mulist))
