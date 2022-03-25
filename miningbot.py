@@ -60,7 +60,7 @@ class DBhandler:
     
     #get Info of all units
     def getAllUnitInfo(self):
-        query='''SELECT * FROM "miningunits"'''
+        query='''SELECT * FROM "miningunits" ORDER BY "timeleft" DESC'''
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
         return rows
