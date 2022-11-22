@@ -4,7 +4,7 @@ import re
 import time
 import urllib.parse as urlparse
 from discord.ext import commands
-import psycopg2
+#import psycopg2
 
 """
 #get DB info from ENV_Var
