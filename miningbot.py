@@ -6,6 +6,7 @@ import urllib.parse as urlparse
 from discord.ext import commands
 import psycopg2
 
+"""
 #get DB info from ENV_Var
 DATABASE_URL = os.environ['DATABASE_URL']
 
@@ -42,6 +43,7 @@ class DBhandler:
             self.cursor.close()
             self.connection.close()
             print("PostgreSQL connection is closed")
+  """
     
     #--------MINING UNIT COMMANDS--------
     #initial unit-read function
